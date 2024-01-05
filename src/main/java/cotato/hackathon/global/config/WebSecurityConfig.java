@@ -57,7 +57,9 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
+        http
+                .cors(AbstractHttpConfigurer::disable)
+                //.cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .sessionManagement(session -> session
