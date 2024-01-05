@@ -67,14 +67,14 @@ public class BlockController {
         return blockService.findById(block_id);
     }
 
-    @GetMapping("/like/{block_id") // 좋아요 누르기
+    @GetMapping("/like/{block_id}") // 좋아요 누르기
     public void likeBlock(
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable(name = "block_id") Long blockId) {
         likesService.likeBlock(userDetails, blockId);
     }
 
-    @DeleteMapping("/like/{block_id") // 좋아요 취소
+    @DeleteMapping("/like/{block_id}") // 좋아요 취소
     public void UnlikeBlock(
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable(name = "block_id") Long blockId) {
