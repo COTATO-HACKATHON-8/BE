@@ -70,7 +70,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/sungdong29-backend-dev
+          tags: ${{ secrets.DOCKER_USERNAME }}/hackathon-backend
 
       - name: create remote directory
         uses: appleboy/ssh-action@master
