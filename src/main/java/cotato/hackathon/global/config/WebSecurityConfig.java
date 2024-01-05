@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
@@ -57,7 +58,12 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
+        http
+                .cors(configurer ->
+                        configurer.configurationSource(corsConfigurationSource())
+                )
+                //.cors(AbstractHttpConfigurer::disable)
+                //.cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .sessionManagement(session -> session
@@ -70,7 +76,7 @@ public class WebSecurityConfig {
                         .permitAll()
                         .requestMatchers(SwaggerPatterns)
                         .permitAll()
-                        .requestMatchers("/user/signup", "/user/login", "/places/**", "/blocks/**", "sub-places/**")
+                        .requestMatchers("/user/join", "/user/login", "/blocks/**", "/blocks")
                         .permitAll()
                         .anyRequest().authenticated()
                 )
@@ -84,23 +90,16 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    private void corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", getDefaultCorsConfiguration());
-    }
-
-    private CorsConfiguration getDefaultCorsConfiguration() {
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(
-                Arrays.asList(
-                        "http://localhost:8080",
-                        "http://localhost:3000",
-                        SERVER_URL));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowedMethods(List.of("*"));
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
-
-        return configuration;
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:8080",
+                "http://localhost:3000",
+                SERVER_URL));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

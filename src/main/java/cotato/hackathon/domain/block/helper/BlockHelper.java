@@ -16,10 +16,16 @@ public class BlockHelper {
 
     private final BlockRepository blockRepository;
 
-    public List<Block> getBlockList(String keyword, SortCategoryType category, Long userId) {
+    public List<Block> getBlockList(String keyword, SortCategoryType sortCategoryType, Long userId) {
         List<Block> blocks;
 
-        blocks = blockRepository.findByFilter(keyword, toCategory(category), userId);
+        Category category = null;
+
+        if (sortCategoryType != null) {
+            category = toCategory(sortCategoryType);
+        }
+
+        blocks = blockRepository.findByFilter(keyword, category, userId);
 
         if (blocks == null || blocks.isEmpty()) {
             throw BlockNotFound.EXCEPTION;
