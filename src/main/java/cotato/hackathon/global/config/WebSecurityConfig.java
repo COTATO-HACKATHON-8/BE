@@ -84,7 +84,8 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    private void corsConfigurationSource() {
+    @Bean
+    protected void corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", getDefaultCorsConfiguration());
     }
