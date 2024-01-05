@@ -25,7 +25,6 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 @EnableWebSecurity
 @Configuration
@@ -62,8 +61,6 @@ public class WebSecurityConfig {
                 .cors(configurer ->
                         configurer.configurationSource(corsConfigurationSource())
                 )
-                //.cors(AbstractHttpConfigurer::disable)
-                //.cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .sessionManagement(session -> session
@@ -76,9 +73,10 @@ public class WebSecurityConfig {
                         .permitAll()
                         .requestMatchers(SwaggerPatterns)
                         .permitAll()
-                        .requestMatchers("/user/join", "/user/login", "/blocks/**", "/blocks")
+                        .requestMatchers("/user/join", "/user/login")
                         .permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest()
+                        .authenticated()
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
