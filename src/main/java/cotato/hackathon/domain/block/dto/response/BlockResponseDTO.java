@@ -12,10 +12,10 @@ public class BlockResponseDTO {
     private String imageUrl;
     private String title;;
     private String contents;
-    private int likes;
+    private Long likes;
 
     @Builder
-    private BlockResponseDTO(Long id, User user, Category category, String imageUrl, String title, String contents, Integer likes) {
+    private BlockResponseDTO(Long id, User user, Category category, String imageUrl, String title, String contents, Long likes) {
         this.id = id;
         this.category = category;
         this.imageUrl = imageUrl;
@@ -25,7 +25,7 @@ public class BlockResponseDTO {
         this.likes = likes;
     }
 
-    public static BlockResponseDTO of(Block block, int likeCount) {
+    public static BlockResponseDTO of(Block block, Long likeCount) {
         return BlockResponseDTO.builder()
                 .id(block.getId())
                 .category(block.getCategory())
