@@ -44,7 +44,6 @@ public class Block extends BaseEntity {
     @NotNull
     @Size(max = 128)
     private String imageURL;
-    private int likes;
 
     // 생성자
     @Builder
