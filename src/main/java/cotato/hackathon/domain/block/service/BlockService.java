@@ -4,6 +4,7 @@ import cotato.hackathon.domain.block.domain.Block;
 import cotato.hackathon.domain.block.dto.request.BlockSaveRequestDto;
 import cotato.hackathon.domain.block.dto.request.BlockUpdateRequestDto;
 import cotato.hackathon.domain.block.dto.response.BlockListResponseDto;
+import cotato.hackathon.domain.block.dto.response.BlockResponseDTO;
 import cotato.hackathon.domain.block.enums.SortCategoryType;
 import cotato.hackathon.domain.block.helper.BlockHelper;
 import cotato.hackathon.domain.block.mapper.BlockMapper;
@@ -55,10 +56,11 @@ public class BlockService {
         blockRepository.delete(block);
     }
 
-//    @Transactional(readOnly = true) // 특정 id의 엔티티 조회(보기전용)
-//    public BlockResponseDto findById (Long id) {
-//        Block entity = blockRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 블록이 없습니다. id=" + id));
-//        return new BlockResponseDto(entity);
-//    }
+    @Transactional(readOnly = true) // 특정 id의 엔티티 조회(보기전용)
+    public BlockResponseDTO findById (Long id) {
+        Block block = blockRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 블록이 없습니다. id=" + id));
+        int likeCount = 1;
+        return BlockResponseDTO.of(block, likeCount);
+    }
 }

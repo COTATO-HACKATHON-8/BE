@@ -3,8 +3,10 @@ package cotato.hackathon.domain.block;
 import cotato.hackathon.domain.block.dto.request.BlockSaveRequestDto;
 import cotato.hackathon.domain.block.dto.request.BlockUpdateRequestDto;
 import cotato.hackathon.domain.block.dto.response.BlockListResponseDto;
+import cotato.hackathon.domain.block.dto.response.BlockResponseDTO;
 import cotato.hackathon.domain.block.enums.SortCategoryType;
 import cotato.hackathon.domain.block.service.BlockService;
+import cotato.hackathon.domain.block.service.LikeService;
 import cotato.hackathon.global.config.user.UserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class BlockController {
 
     private final BlockService blockService;
+    private final LikeService likesService;
 
     @Operation(summary = "블록 조회")
     @GetMapping
@@ -58,15 +61,23 @@ public class BlockController {
         return blockId;
     }
 
-//    @Operation(summary = "글 목록 보기")
-//    @GetMapping("blocks/all") // 글 목록 보기
-//    public List<BlockListResponseDto> findAll() {
-//        return blockService.findAllDesc();
-//    }
-//
-//    @Operation(summary = "글 하나 보기")
-//    @GetMapping("blocks/{block_id}") // 글 하나 보기
-//    public BlockResponseDto findBlock(@PathVariable Long block_id) {
-//        return blockService.findById(block_id);
-//    }
+    @Operation(summary = "글 하나 보기")
+    @GetMapping("/{block_id}") // 글 하나 보기
+    public BlockResponseDTO findBlock(@PathVariable Long block_id) {
+        return blockService.findById(block_id);
+    }
+
+    @GetMapping("/like/{block_id") // 좋아요 누르기
+    public void likeBlock(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable(name = "block_id") Long blockId) {
+        likesService.likeBlock(userDetails, blockId);
+    }
+
+    @DeleteMapping("/like/{block_id") // 좋아요 취소
+    public void UnlikeBlock(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable(name = "block_id") Long blockId) {
+        likesService.unlikeBlock(userDetails, blockId);
+    }
 }
