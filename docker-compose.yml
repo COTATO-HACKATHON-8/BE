@@ -3,8 +3,8 @@ version: "3"
 services:
   backend-dev:
     image: cotato/hackathon-backend
-    container_name: backend
-    hostname: team5
+    container_name: backend-dev
+    hostname: backend-dev
     expose:
       - "8080"
 
