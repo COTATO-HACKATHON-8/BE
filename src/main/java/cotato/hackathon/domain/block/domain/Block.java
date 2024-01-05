@@ -2,6 +2,7 @@ package cotato.hackathon.domain.block.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import cotato.hackathon.domain.block.dto.request.BlockSaveRequestDto;
 import cotato.hackathon.domain.user.domain.User;
 import cotato.hackathon.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -43,6 +44,7 @@ public class Block extends BaseEntity {
     @NotNull
     @Size(max = 128)
     private String imageURL;
+    private int likes;
 
     // 생성자
     @Builder
@@ -59,8 +61,19 @@ public class Block extends BaseEntity {
         this.imageURL = imageURL;
     }
 
-    public static Block from() {
+    public static Block of(User user, BlockSaveRequestDto blockSaveRequestDto) {
         return Block.builder()
+                .user(user)
+                .category(blockSaveRequestDto.getCategory())
+                .title(blockSaveRequestDto.getTitle())
+                .contents(blockSaveRequestDto.getContents())
+                .imageURL(blockSaveRequestDto.getImageURL())
                 .build();
+    }
+    public void update(String title, String contents, Category category, String imageURL) {
+        this.title = title;
+        this.contents = contents;
+        this.category = category;
+        this.imageURL = imageURL;
     }
 }
