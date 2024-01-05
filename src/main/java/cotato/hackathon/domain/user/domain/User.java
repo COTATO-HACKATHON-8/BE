@@ -1,7 +1,9 @@
 package cotato.hackathon.domain.user.domain;
 
 
+import cotato.hackathon.domain.user.dto.request.JoinRequestDTO;
 import cotato.hackathon.global.common.entity.BaseEntity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,10 +16,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class User extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
+
+    @NotNull
+    @Size(max = 30)
+    private String name;
+
+    @Nullable
+    @Size(max = 30)
+    private String nickname;
 
     @NotNull
     @Size(max = 20)
@@ -28,11 +39,7 @@ public class User extends BaseEntity {
     @Size(max = 128)
     private String password;
 
-    @NotNull
-    @Size(max = 30)
-    private String nickname;
-
-    @NotNull
+    @Nullable
     @Size(max = 120)
     private String imageURL;
 
@@ -40,23 +47,19 @@ public class User extends BaseEntity {
     // 생성자
     @Builder
     private User(
+            String name,
             String username,
-            String password,
-            String nickname,
-            String imageURL) {
+            String password) {
+        this.name = name;
         this.username = username;
         this.password = password;
-        this.nickname = nickname;
-        this.imageURL = imageURL;
-
     }
 
-    public static User of() {
+    public static User of(JoinRequestDTO joinRequestDTO, String encodedPassword) {
         return User.builder()
+                .name(joinRequestDTO.getUserVo().getName())
+                .username(joinRequestDTO.getUserVo().getUsername())
+                .password(encodedPassword)
                 .build();
-    }
-
-    public void updateNickname(String nickname) {
-        this.nickname = nickname;
     }
 }
