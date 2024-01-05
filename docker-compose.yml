@@ -2,7 +2,7 @@ version: "3"
 
 services:
   backend-dev:
-    image: cotato/hackathon-backend
+    image: potatohackaton8/hackathon-backend
     container_name: backend-dev
     hostname: backend-dev
     expose:
