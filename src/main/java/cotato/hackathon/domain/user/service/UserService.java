@@ -1,6 +1,7 @@
 package cotato.hackathon.domain.user.service;
 
 
+import cotato.hackathon.domain.block.repository.LikeRepository;
 import cotato.hackathon.domain.user.domain.User;
 import cotato.hackathon.domain.user.dto.request.JoinRequestDTO;
 import cotato.hackathon.domain.user.dto.request.LoginDto;
@@ -8,6 +9,7 @@ import cotato.hackathon.domain.user.dto.response.TokenResponseDTO;
 import cotato.hackathon.domain.user.helper.UserHelper;
 import cotato.hackathon.domain.user.repository.UserRepository;
 import cotato.hackathon.global.config.jwt.TokenProvider;
+import cotato.hackathon.global.config.user.UserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,7 @@ public class UserService {
     private final UserHelper userHelper;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final LikeRepository likeRepository;
 
     @Transactional
     public TokenResponseDTO loginUser(LoginDto loginDto) {
@@ -44,5 +47,11 @@ public class UserService {
                 userHelper.encodePassword(joinRequestDTO.getUserVo().getPassword());
         final User user = User.of(joinRequestDTO, encodedPassword);
         userRepository.save(user);
+    }
+
+    public Long countLikeByUser(Long userId) {
+        User findUser = userRepository.findById(userId)
+                .orElseThrow();
+        return likeRepository.countByUser(findUser);
     }
 }

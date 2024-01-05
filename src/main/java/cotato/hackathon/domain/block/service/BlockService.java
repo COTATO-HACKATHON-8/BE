@@ -9,6 +9,7 @@ import cotato.hackathon.domain.block.enums.SortCategoryType;
 import cotato.hackathon.domain.block.helper.BlockHelper;
 import cotato.hackathon.domain.block.mapper.BlockMapper;
 import cotato.hackathon.domain.block.repository.BlockRepository;
+import cotato.hackathon.domain.block.repository.LikeRepository;
 import cotato.hackathon.domain.user.domain.User;
 import cotato.hackathon.global.config.user.UserDetails;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class BlockService {
     private final BlockRepository blockRepository;
     private final BlockMapper blockMapper;
     private final BlockHelper blockHelper;
+    private final LikeRepository likeRepository;
 
     @Transactional(readOnly = true)
     public BlockListResponseDto getBlockList(String keyword, SortCategoryType category, Long placeId) {
@@ -60,7 +62,7 @@ public class BlockService {
     public BlockResponseDTO findById (Long id) {
         Block block = blockRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 블록이 없습니다. id=" + id));
-        int likeCount = 1;
+        Long likeCount = likeRepository.countByBlock(block);
         return BlockResponseDTO.of(block, likeCount);
     }
 }
