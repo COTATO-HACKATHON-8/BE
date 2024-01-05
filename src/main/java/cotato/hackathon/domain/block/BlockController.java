@@ -3,16 +3,15 @@ package cotato.hackathon.domain.block;
 import cotato.hackathon.domain.block.dto.request.BlockSaveRequestDto;
 import cotato.hackathon.domain.block.dto.request.BlockUpdateRequestDto;
 import cotato.hackathon.domain.block.dto.response.BlockListResponseDto;
-import cotato.hackathon.domain.block.dto.response.BlockResponseDto;
 import cotato.hackathon.domain.block.enums.SortCategoryType;
 import cotato.hackathon.domain.block.service.BlockService;
+import cotato.hackathon.global.config.user.UserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -34,32 +33,40 @@ public class BlockController {
     }
 
     @Operation(summary = "블록 작성")
-    @PostMapping("blocks/write") // 작성
-    public Long writeBlock(@RequestBody BlockSaveRequestDto requestDto) {
-        return blockService.writeBlock(requestDto);
+    @PostMapping("/write") // 작성
+    public Long writeBlock(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody BlockSaveRequestDto requestDto) {
+        return blockService.writeBlock(userDetails, requestDto);
     }
 
     @Operation(summary = "블록 수정")
-    @PutMapping("blocks/{block_id}/rewrite") // 수정
-    public Long rewriteBlock(@PathVariable Long block_id, @RequestBody BlockUpdateRequestDto requestDto) {
-        return blockService.rewriteBlock(block_id, requestDto);
+    @PutMapping("/{block_id}") // 수정
+    public Long rewriteBlock(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable(name = "block_id") Long blockId,
+            @RequestBody BlockUpdateRequestDto requestDto) {
+        return blockService.rewriteBlock(userDetails, blockId, requestDto);
     }
 
     @Operation(summary = "블록 삭제")
-    @DeleteMapping("blocks/{block_id}") // 삭제
-    public Long deleteBlock(@PathVariable Long block_id) {
-        blockService.deleteBlock(block_id);
-        return block_id;
-    }
-    @Operation(summary = "글 목록 보기")
-    @GetMapping("blocks/all") // 글 목록 보기
-    public List<BlockListResponseDto> findAll() {
-        return blockService.findAllDesc();
+    @DeleteMapping("/{block_id}") // 삭제
+    public Long deleteBlock(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable(name = "block_id") Long blockId) {
+        blockService.deleteBlock(userDetails, blockId);
+        return blockId;
     }
 
-    @Operation(summary = "글 하나 보기")
-    @GetMapping("blocks/{block_id}") // 글 하나 보기
-    public BlockResponseDto findBlock(@PathVariable Long block_id) {
-        return blockService.findById(block_id);
-    }
+//    @Operation(summary = "글 목록 보기")
+//    @GetMapping("blocks/all") // 글 목록 보기
+//    public List<BlockListResponseDto> findAll() {
+//        return blockService.findAllDesc();
+//    }
+//
+//    @Operation(summary = "글 하나 보기")
+//    @GetMapping("blocks/{block_id}") // 글 하나 보기
+//    public BlockResponseDto findBlock(@PathVariable Long block_id) {
+//        return blockService.findById(block_id);
+//    }
 }

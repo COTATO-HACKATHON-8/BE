@@ -70,12 +70,10 @@ public class Block extends BaseEntity {
                 .imageURL(blockSaveRequestDto.getImageURL())
                 .build();
     }
-    public void update(String title, String contents, User user, Category category, String imageURL, int likes) {
+    public void update(String title, String contents, Category category, String imageURL) {
         this.title = title;
         this.contents = contents;
-        this.user = user;
         this.category = category;
         this.imageURL = imageURL;
-        this.likes = likes;
     }
 }

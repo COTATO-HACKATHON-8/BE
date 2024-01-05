@@ -11,17 +11,13 @@ import lombok.NoArgsConstructor;
 public class BlockUpdateRequestDto {
     private String title;
     private String contents;
-    private User user;
     private Category category;
     private String imageURL;
-    private int likes;
     @Builder
     public BlockUpdateRequestDto(String title, String contents, User user, Category category, String imageURL, int likes) {
         this.title = title;
         this.contents = contents;
-        this.user = user;
         this.category = category;
         this.imageURL = imageURL;
-        this.likes = likes;
     }
 }
