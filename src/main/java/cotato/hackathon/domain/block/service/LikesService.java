@@ -1,5 +1,15 @@
 package cotato.hackathon.domain.block.service;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
+import cotato.hackathon.domain.block.repository.LikesRepository;
+import com.example.repository.UserRepository;
+import com.example.repository.BlocksRepository;
+import com.example.exception.NotFoundException;
+import com.example.dto.LikesRequestDTO;
+import com.example.entity.User;
+
 @Service
 @RequiredArgsConstructor
 public class LikesService {

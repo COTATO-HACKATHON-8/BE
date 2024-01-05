@@ -1,4 +1,7 @@
-package cotato.hackathon.domain.like;
+package cotato.hackathon.domain.block;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController

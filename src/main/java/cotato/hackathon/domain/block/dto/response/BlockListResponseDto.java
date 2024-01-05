@@ -7,17 +7,17 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class BlockListResponseDTO {
+public class BlockListResponseDto {
 
     List<SimpleBlockVo> blocks;
 
     @Builder
-    private BlockListResponseDTO(List<SimpleBlockVo> blocks) {
+    private BlockListResponseDto(List<SimpleBlockVo> blocks) {
         this.blocks = blocks;
     }
 
-    public static BlockListResponseDTO from(List<SimpleBlockVo> blocks) {
-        return BlockListResponseDTO.builder()
+    public static BlockListResponseDto from(List<SimpleBlockVo> blocks) {
+        return BlockListResponseDto.builder()
                 .blocks(blocks)
                 .build();
     }
