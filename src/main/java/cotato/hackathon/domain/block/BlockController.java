@@ -22,7 +22,7 @@ public class BlockController {
     private final BlockService blockService;
 
     @Operation(summary = "블록 조회")
-    @GetMapping("/search")
+    @GetMapping
     public BlockListResponseDTO getBlocks(
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "category", required = false) SortCategoryType category,
