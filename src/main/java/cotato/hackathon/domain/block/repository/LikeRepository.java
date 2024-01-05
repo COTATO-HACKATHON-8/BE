@@ -9,8 +9,9 @@ import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<Like, Long> {
 
-Optional<Like> findByUserAndBlock(User user, Block block);
-}
+    Optional<Like> findByUserAndBlock(User user, Block block);
+    Long countByBlock(Block block);
+    Long countByUser(User user);}
 
 
 
