@@ -12,11 +12,23 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public enum Category {
     EXERCISE("운동"),
-    MOVIE("영화"),
     TRAVEL("여행"),
-    MUSIC("음악");
+    MOVIE("영화"),
+    BOOK("책"),
+    PERFORMANCE("공연"),
+    PHOTO("사진"),
+    MUSIC("음악"),
+    INSTRUMENT("악기"),
+    FOOD("음식"),
+    DIY("DIY"),
+    STUDY("공부"),
+    GAME("게임"),
+    ART("예술"),
+    COLLECTION("수집"),
+    ETC("기타");
 
-    @JsonValue private final String category;
+    @JsonValue
+    private final String category;
 
     @JsonCreator
     public static Category parsing(String inputValue) {
