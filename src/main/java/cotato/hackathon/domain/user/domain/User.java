@@ -32,16 +32,22 @@ public class User extends BaseEntity {
     @Size(max = 30)
     private String nickname;
 
+    @NotNull
+    @Size(max = 120)
+    private String imageURL;
+
 
     // 생성자
     @Builder
     private User(
             String username,
             String password,
-            String nickname) {
+            String nickname,
+            String imageURL) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        this.imageURL = imageURL;
 
     }
 
