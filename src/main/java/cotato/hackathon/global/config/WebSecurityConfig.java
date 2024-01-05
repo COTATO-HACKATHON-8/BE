@@ -70,7 +70,7 @@ public class WebSecurityConfig {
                         .permitAll()
                         .requestMatchers(SwaggerPatterns)
                         .permitAll()
-                        .requestMatchers("/user/join", "/user/login", "/blocks/**")
+                        .requestMatchers("/user/join", "/user/login", "/blocks/**", "/blocks")
                         .permitAll()
                         .anyRequest().authenticated()
                 )
