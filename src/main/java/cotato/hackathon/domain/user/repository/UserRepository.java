@@ -1,7 +1,7 @@
 package cotato.hackathon.domain.user.repository;
 
-import cotato.hackathon.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import cotato.hackathon.domain.user.domain.User;
 
 import java.util.Optional;
 
